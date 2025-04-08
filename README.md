@@ -8,6 +8,7 @@ Notebook LM Tab Collector is a Chrome extension that collects the URLs of all op
 - Filters out `notebooklm.google.com` and `chrome://` URLs.
 - Dynamically injects a content script to interact with the Notebook LM interface.
 - Automates the process of adding sources to Notebook LM.
+- Beautifully styled popup interface for a better user experience.
 
 ## Installation
 
@@ -30,6 +31,7 @@ Notebook LM Tab Collector is a Chrome extension that collects the URLs of all op
 ## File Structure
 
 - **popup.html**: The HTML file for the extension's popup interface.
+- **pop.css**: Stylesheet for the popup interface.
 - **popup.js**: Handles the logic for querying tabs and injecting the content script.
 - **background.js**: Manages background tasks for the extension.
 - **content.js**: Automates interactions with the Notebook LM interface.
@@ -41,12 +43,19 @@ The extension requires the following permissions:
 - `tabs`: To query open tabs in the browser.
 - `activeTab`: To interact with the active tab.
 - `scripting`: To dynamically inject scripts into tabs.
-- `host_permissions`: To access specific domains (e.g., `https://notebooklm.google.com`).
+- `host_permissions`: To access `https://notebooklm.google.com/*`.
 
 ## Known Issues
 
 - If the "Add source" or "Insert" buttons are not found, the extension will log a warning and skip the URL.
 - Ensure the Notebook LM tab is open and accessible before using the extension.
+
+## Styling
+
+The popup interface has been styled using `pop.css` to provide a clean and modern look:
+- **Header**: Displays the extension name.
+- **Description**: Provides instructions for the user.
+- **Button**: Styled with hover and active states for better interactivity.
 
 ## Contributing
 
