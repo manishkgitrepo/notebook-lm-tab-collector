@@ -21,7 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Proceed with your logic (e.g., finding notebooklm.google.com tab)
       let tabs = await chrome.tabs.query({});
-      let urls = tabs.map(tab => tab.url);
+      let urls = tabs
+        .map(tab => tab.url)
+        .filter(url => url && !url.includes("notebooklm.google.com") && !url.startsWith("chrome://"));
 
       let notebookTab = tabs.find(tab => tab.url.includes("notebooklm.google.com"));
 
