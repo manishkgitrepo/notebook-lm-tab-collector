@@ -74,7 +74,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     };
 
     (async () => {
-      console.log("Starting to process URLs...", message.urls);
       for (const url of message.urls) {
         await addSourceManually(url);
       }
