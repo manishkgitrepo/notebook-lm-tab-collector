@@ -1,32 +1,51 @@
 console.log("Content script loaded and listening for messages.");
 
+// Utility function to wait for an element to appear
+const waitForElement = async (selector, timeout = 5000) => {
+  const startTime = Date.now();
+  while (Date.now() - startTime < timeout) {
+    const element = document.querySelector(selector);
+    if (element) return element;
+    await new Promise(resolve => setTimeout(resolve, 100)); // Retry every 100ms
+  }
+  console.warn(`Element with selector "${selector}" not found within ${timeout}ms.`);
+  return null;
+};
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-
   if (message.type === "ADD_SOURCES") {
-
     const addSourceManually = async (url) => {
       try {
         console.log(`Processing URL: ${url}`);
 
-        // Find and click the "Add source" button
-        const addSourceButton = document.querySelector('[aria-label="Add source"]');
-        if (!addSourceButton) throw new Error("Add source button not found.");
+        // Wait for and click the "Add source" button
+        const addSourceButton = await waitForElement('[aria-label="Add source"]');
+        if (!addSourceButton) {
+          console.warn(`Skipping URL ${url}: 'Add source' button not found.`);
+          return;
+        }
         console.log("Clicking 'Add source' button...");
         addSourceButton.click();
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        // Find and click the "Website" button using text content
+        // Wait for and click the "Website" button
         const websiteSpan = Array.from(document.querySelectorAll('span')).find(
           el => el.textContent.trim() === 'Website'
         );
-        if (!websiteSpan) throw new Error("'Website' button not found.");
+        if (!websiteSpan) {
+          console.warn(`Skipping URL ${url}: 'Website' button not found.`);
+          return;
+        }
         console.log("Clicking 'Website' button...");
         websiteSpan.click();
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        // Find the input field and enter the URL
-        const input = document.querySelector('input[formcontrolname="newUrl"]');
-        if (!input) throw new Error("Input field with formcontrolname='newUrl' not found.");
+        // Wait for the input field and enter the URL
+        const input = await waitForElement('input[formcontrolname="newUrl"]');
+        if (!input) {
+          console.warn(`Skipping URL ${url}: Input field not found.`);
+          return;
+        }
         console.log("Entering URL into input field...");
         input.focus();
         input.value = url;
@@ -37,11 +56,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         // Wait for a short delay after entering the URL
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        // Find and click the "Insert" button using text content
+        // Wait for and click the "Insert" button
         const insertBtn = Array.from(document.querySelectorAll('button')).find(
           el => el.textContent.trim() === 'Insert'
         );
-        if (!insertBtn) throw new Error("'Insert' button not found.");
+        if (!insertBtn) {
+          console.warn(`Skipping URL ${url}: 'Insert' button not found.`);
+          return;
+        }
         console.log("Clicking 'Insert' button...");
         insertBtn.click();
         await new Promise(resolve => setTimeout(resolve, 1500));
@@ -52,7 +74,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     };
 
     (async () => {
-      console.log("Starting to process URLs...",message.urls);
+      console.log("Starting to process URLs...", message.urls);
       for (const url of message.urls) {
         await addSourceManually(url);
       }
