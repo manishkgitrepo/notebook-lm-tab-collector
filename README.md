@@ -8,7 +8,9 @@ Notebook LM Tab Collector is a Chrome extension that collects the URLs of all op
 - Filters out `notebooklm.google.com` and `chrome://` URLs.
 - Dynamically injects a content script to interact with the Notebook LM interface.
 - Automates the process of adding sources to Notebook LM.
+- Automatically detects and handles YouTube watch URLs differently from regular websites.
 - Beautifully styled popup interface for a better user experience.
+- Auto-closes popup after initiating the source collection.
 
 ## Installation
 
@@ -32,10 +34,18 @@ Notebook LM Tab Collector is a Chrome extension that collects the URLs of all op
 
 - **popup.html**: The HTML file for the extension's popup interface.
 - **pop.css**: Stylesheet for the popup interface.
-- **popup.js**: Handles the logic for querying tabs and injecting the content script.
+- **popup.js**: Handles the logic for querying tabs and injecting the content script using ES modules.
+- **util.js**: Contains utility functions like popup window management.
 - **background.js**: Manages background tasks for the extension.
 - **content.js**: Automates interactions with the Notebook LM interface.
 - **manifest.json**: The configuration file for the Chrome extension.
+
+## URL Handling
+
+The extension handles different types of URLs:
+- **Regular websites**: Added using the "Website" source option.
+- **YouTube videos**: Only YouTube watch URLs (containing '/watch') are processed using the "YouTube" source option.
+- **Filtered URLs**: Chrome internal pages and non-watch YouTube URLs are automatically filtered out.
 
 ## Permissions
 
@@ -49,6 +59,7 @@ The extension requires the following permissions:
 
 - If the "Add source" or "Insert" buttons are not found, the extension will log a warning and skip the URL.
 - Ensure the Notebook LM tab is open and accessible before using the extension.
+- Only YouTube watch URLs are supported; other YouTube URLs (channels, playlists) are ignored.
 
 ## Styling
 
