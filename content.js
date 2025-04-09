@@ -28,16 +28,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         addSourceButton.click();
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        // Wait for and click the "Website" button
-        const websiteSpan = Array.from(document.querySelectorAll('span')).find(
-          el => el.textContent.trim() === 'Website'
+        // Determine which button to click based on the URL
+        let buttonLabel = url.includes("youtube.com") ? "YouTube" : "Website";
+        const targetButton = Array.from(document.querySelectorAll('span')).find(
+          el => el.textContent.trim() === buttonLabel
         );
-        if (!websiteSpan) {
-          console.warn(`Skipping URL ${url}: 'Website' button not found.`);
+        if (!targetButton) {
+          console.warn(`Skipping URL ${url}: '${buttonLabel}' button not found.`);
           return;
         }
-        console.log("Clicking 'Website' button...");
-        websiteSpan.click();
+        console.log(`Clicking '${buttonLabel}' button...`);
+        targetButton.click();
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         // Wait for the input field and enter the URL

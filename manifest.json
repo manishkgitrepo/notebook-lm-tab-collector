@@ -27,5 +27,8 @@
       "resources": ["content.js"],
       "matches": ["https://notebooklm.google.com/*"]
     }
-  ]
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
 }

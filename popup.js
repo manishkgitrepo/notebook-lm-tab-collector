@@ -1,3 +1,5 @@
+import { closePopupWithDelay } from './util.js';
+
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("collect").addEventListener("click", async () => {
     try {
@@ -14,7 +16,16 @@ document.addEventListener("DOMContentLoaded", () => {
       let tabs = await chrome.tabs.query({});
       let urls = tabs
         .map(tab => tab.url)
-        .filter(url => url && !url.includes("notebooklm.google.com") && !url.startsWith("chrome://"));
+        .filter(url => {
+          if (!url || url.includes("notebooklm.google.com") || url.startsWith("chrome://")) {
+            return false;
+          }
+          // Skip YouTube URLs that don't contain '/watch'
+          if (url.includes("youtube.com") && !url.includes("/watch")) {
+            return false;
+          }
+          return true;
+        });
 
       // Find the Notebook LM tab
       let notebookTab = tabs.find(tab => tab.url.includes("notebooklm.google.com"));
@@ -46,6 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         });
       });
+
+      // Close popup after sending message
+      closePopupWithDelay();
     } catch (error) {
       console.error("Unexpected error:", error);
       alert("An unexpected error occurred. Check the console for details.");
