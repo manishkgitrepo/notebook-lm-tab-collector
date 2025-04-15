@@ -13,8 +13,15 @@
   "background": {
     "service_worker": "background.js"
   },
+  "icons": {
+    "16": "assets/app_icon.png",
+    "32": "assets/app_icon.png",
+    "48": "assets/app_icon.png",
+    "128": "assets/app_icon.png"
+  },
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": "assets/app_icon.png"
   },
   "content_scripts": [
     {
