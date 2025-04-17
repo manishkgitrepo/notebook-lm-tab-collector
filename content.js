@@ -75,8 +75,20 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     };
 
     (async () => {
+      const totalUrls = message.urls.length;
+      let processedUrls = 0;
+
       for (const url of message.urls) {
         await addSourceManually(url);
+        processedUrls++;
+        // Send progress update
+        chrome.runtime.sendMessage({
+          type: "PROGRESS_UPDATE",
+          progress: {
+            processed: processedUrls,
+            total: totalUrls
+          }
+        });
       }
       console.log("All sources processed.");
       sendResponse({ status: "Completed adding sources." });

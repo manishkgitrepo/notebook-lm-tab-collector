@@ -48,3 +48,26 @@ p {
 .btn:active {
   background-color: #3e8e41;
 }
+
+/* Progress bar styles */
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  margin: 20px 0 10px;
+  overflow: hidden;
+}
+
+.progress {
+  width: 0%;
+  height: 100%;
+  background-color: #4CAF50;
+  transition: width 0.3s ease;
+}
+
+#progress-text {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #666;
+}

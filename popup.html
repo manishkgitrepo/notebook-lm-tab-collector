@@ -4,13 +4,22 @@
   <title>Notebook LM Collector</title>
   <link rel="stylesheet" href="pop.css">
   <script src="popup.js" type="module"></script>
-  <script src="util.js" type="module"></script>
+  <script type="module">
+    import { addClickOutsideListener } from './util.js';
+    document.addEventListener("DOMContentLoaded", addClickOutsideListener);
+  </script>
 </head>
 <body>
   <div class="container">
     <h1>Notebook LM Collector</h1>
     <p>Click the button below to add all open tabs to Notebook LM.</p>
     <button id="collect" class="btn">Add Tabs to Notebook LM</button>
+    <div id="progress-container" style="display: none;">
+      <div class="progress-bar">
+        <div id="progress" class="progress"></div>
+      </div>
+      <p id="progress-text">Processing: 0/0</p>
+    </div>
   </div>
 </body>
 </html>
