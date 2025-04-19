@@ -7,9 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Function to update progress
   const updateProgress = (processed, total) => {
-    const percentage = (processed / total) * 100;
+    const percentage = Math.round((processed / total) * 100);
     progressBar.style.width = `${percentage}%`;
-    progressText.textContent = `Processing: ${processed}/${total}`;
+    progressText.textContent = `Processing: ${percentage}%`;
     if (processed === total) {
       progressText.textContent = "Complete!";
       // Close popup only when processing is complete
