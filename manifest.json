@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Notebook LM Tab Collector",
-  "version": "2.0",
+  "version": "2.1",
   "permissions": [
     "tabs",
     "activeTab",
@@ -37,5 +37,6 @@
   ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
-  }
+  },
+  "description": "Send open tab URLs to Google Notebook LM (NotebookLM) with one click — fast, easy source collection for research."
 }
